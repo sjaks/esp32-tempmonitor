@@ -1,0 +1,22 @@
+{
+  "name": "tempbodge",
+  "version": "1.0.0",
+  "description": "Very simple Raspberry Pi temperature monitor with a barebones frontend",
+  "main": "tempbodge.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sjaks/tempbodge.git"
+  },
+  "author": "sjaks@github",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sjaks/tempbodge/issues"
+  },
+  "homepage": "https://github.com/sjaks/tempbodge#readme",
+  "dependencies": {
+    "dotenv": "^8.2.0"
+  }
+}

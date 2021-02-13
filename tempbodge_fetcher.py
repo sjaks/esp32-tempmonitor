@@ -10,6 +10,7 @@
 # values to cloud. Depends on:
 # apt-get install python3-w1thermsensor
 
+import time
 import requests
 import threading
 from w1thermsensor import W1ThermSensor
@@ -30,8 +31,8 @@ def setInterval(func, interval):
 # Read temperature sensor and send value to entrypoint
 def send_temp():
     temp = SENSOR.get_temperature()
-    print(temp)
-    payload = {"temps": temp, "token": TOKEN}
+    payload = {"timestamp": time.time(), "temp": temp, "token": TOKEN}
+    print(payload)
     x = requests.post(ENTRYPOINT, data = payload)
 
 
