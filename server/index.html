@@ -23,35 +23,45 @@
       </div>
     </div>
 
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
     <script>
       var ctx = document.getElementById("temps");
-      var temps = new Chart(ctx, {
-        type: 'line',
-        data: {
-          labels: ["time", "time"],
-          datasets: [{
-            data: [23.0, 24.0],
-            lineTension: 0,
-            backgroundColor: 'transparent',
-            borderColor: '#007bff',
-            borderWidth: 2
-          }]
-        },
-        options: {
-          scales: {
-            yAxes: [{
-                ticks: {
-                    min: 12,
-                    max: 40,
-                    stepSize: 2
-                }
+      $.get("/temperature/read", function(data) {
+        var y = [], x = [];
+
+        for (var i = 0; i < data.length; i++) {
+          x.push(data[i].timestamp);
+          y.push(parseFloat(data[i].temp))
+        }
+
+        var temps = new Chart(ctx, {
+          type: "line",
+          data: {
+            labels: x,
+            datasets: [{
+              data: y,
+              lineTension: 0,
+              backgroundColor: "transparent",
+              borderColor: "#007bff",
+              borderWidth: 2
             }]
           },
-          legend: {
-            display: false,
+          options: {
+            scales: {
+              yAxes: [{
+                  ticks: {
+                      min: 12,
+                      max: 40,
+                      stepSize: 2
+                  }
+              }]
+            },
+            legend: {
+              display: false,
+            }
           }
-        }
+        });
       });
     </script>
   </body>
