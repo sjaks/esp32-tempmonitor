@@ -18,7 +18,7 @@ const secret = process.env.SECRET;
 
 const requestListener = function (req, res) {
     // Set default HTTP response values
-    res.setHeader("Content-Type", "text/html; charset=utf-8");
+    let header = "text/html; charset=utf-8";
     let returnCode = 200;
     let responseText = "";
 
@@ -32,11 +32,22 @@ const requestListener = function (req, res) {
         responseText = fs.readFileSync(__dirname + "/index.html", { encoding: "utf8" });
     } else if (path == "read") {
         // Entrypoint for front-end to get latest data
-        data = fs.readFileSync(__dirname + "/temps", { encoding: "utf8" });
-        responseText = data
+        data = fs.readFileSync(__dirname + "/temps");
+        header = "text/json";
+        responseText = data;
     } else if (path == "post") {
         // Require authentication and write given data
         if (querySecret === secret) {
+            data = JSON.parse(fs.readFileSync(__dirname + "/temps"));
+            if (data.length >= 15) {
+                // If the log is growing too large,
+                // pop the first element first
+                data.shift()
+            }
+            data.push({ "timestamp": 1613253672, "temp": 23, "token": "secret" });
+            fs.writeFileSync(__dirname + "/temps", JSON.stringify(data));
+
+            console.log(data.length)
             responseText = "success";
         } else {
             returnCode = 401;
@@ -48,6 +59,7 @@ const requestListener = function (req, res) {
     }
 
     // Respond
+    res.setHeader("Content-Type", header);
     res.writeHead(returnCode);
     res.end(responseText);
 }
