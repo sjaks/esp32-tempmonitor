@@ -44,12 +44,9 @@ const requestListener = function (req, res) {
                 // pop the first element first
                 data.shift()
             }
-            console.log(queryObject.query.timestamp)
-            console.log(queryObject.query.temp)
             data.push({
                 "timestamp": queryObject.query.timestamp,
-                "temp": queryObject.query.temp,
-                "token": "secret"
+                "temp": queryObject.query.temp
             });
             // Write new temp data to the back of the temp array file
             fs.writeFileSync(__dirname + "/temps", JSON.stringify(data));

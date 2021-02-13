@@ -31,7 +31,7 @@ def setInterval(func, interval):
 # Read temperature sensor and send value to entrypoint
 def send_temp():
     temp = SENSOR.get_temperature()
-    payload = {"timestamp": time.time(), "temp": temp, "token": TOKEN}
+    payload = {"timestamp": time.time(), "temp": temp, "secret": TOKEN}
     print(payload)
     req = requests.get(url = ENTRYPOINT, params = payload)
 
