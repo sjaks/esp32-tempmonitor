@@ -1,0 +1,58 @@
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Temperature monitor</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  </head>
+  <body>
+    <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
+      <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Temperature monitor</a>
+      <ul class="navbar-nav px-3">
+        <li class="nav-item text-nowrap">
+          <a class="nav-link" href="https://jaks.fi/">Jaks.fi</a>
+        </li>
+      </ul>
+    </nav>
+    <div class="container-fluid">
+      <br>
+      <div class="row">
+        <div class="container">
+          <canvas class="my-4" id="temps" width="700" height="380"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
+    <script>
+      var ctx = document.getElementById("temps");
+      var temps = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: ["time", "time"],
+          datasets: [{
+            data: [23.0, 24.0],
+            lineTension: 0,
+            backgroundColor: 'transparent',
+            borderColor: '#007bff',
+            borderWidth: 2
+          }]
+        },
+        options: {
+          scales: {
+            yAxes: [{
+                ticks: {
+                    min: 12,
+                    max: 40,
+                    stepSize: 2
+                }
+            }]
+          },
+          legend: {
+            display: false,
+          }
+        }
+      });
+    </script>
+  </body>
+</html>

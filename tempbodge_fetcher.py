@@ -12,7 +12,7 @@
 
 import requests
 import threading
-from w1thermsensor import W1ThermSensor, Unit
+from w1thermsensor import W1ThermSensor
 
 
 TOKEN = "secret" # change to a secure password
@@ -29,7 +29,7 @@ def setInterval(func, interval):
 
 # Read temperature sensor and send value to entrypoint
 def send_temp():
-    temp = sensor.get_temperature()
+    temp = SENSOR.get_temperature()
     print(temp)
     payload = {"temps": temp, "token": TOKEN}
     x = requests.post(ENTRYPOINT, data = payload)
