@@ -44,10 +44,15 @@ const requestListener = function (req, res) {
                 // pop the first element first
                 data.shift()
             }
-            data.push({ "timestamp": 1613253672, "temp": 23, "token": "secret" });
+            console.log(queryObject.query.timestamp)
+            console.log(queryObject.query.temp)
+            data.push({
+                "timestamp": queryObject.query.timestamp,
+                "temp": queryObject.query.temp,
+                "token": "secret"
+            });
+            // Write new temp data to the back of the temp array file
             fs.writeFileSync(__dirname + "/temps", JSON.stringify(data));
-
-            console.log(data.length)
             responseText = "success";
         } else {
             returnCode = 401;

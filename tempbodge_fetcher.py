@@ -33,7 +33,7 @@ def send_temp():
     temp = SENSOR.get_temperature()
     payload = {"timestamp": time.time(), "temp": temp, "token": TOKEN}
     print(payload)
-    x = requests.post(ENTRYPOINT, data = payload)
+    req = requests.get(url = ENTRYPOINT, params = payload)
 
 
 def main():
