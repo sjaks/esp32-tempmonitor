@@ -10,7 +10,7 @@
       <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Temperature monitor</a>
       <ul class="navbar-nav px-3">
         <li class="nav-item text-nowrap">
-          <a class="nav-link" href="https://jaks.fi/">Jaks.fi</a>
+          <small style="color: white">Updated: <span id="updateTime"></span></small>
         </li>
       </ul>
     </nav>
@@ -18,6 +18,8 @@
       <br>
       <div class="row">
         <div class="container">
+          <h1>Current temperature: <span id="currTemp"></span>&deg;C</h1>
+          <br>
           <canvas class="my-4" id="temps" width="700" height="380"></canvas>
         </div>
       </div>
@@ -25,44 +27,87 @@
 
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
+
     <script>
+      var cur = document.getElementById("currTemp");
+      var upd = document.getElementById("updateTime");
       var ctx = document.getElementById("temps");
-      $.get("/temperature/read", function(data) {
-        var y = [], x = [];
 
-        for (var i = 0; i < data.length; i++) {
-          x.push(data[i].timestamp);
-          y.push(parseFloat(data[i].temp))
-        }
-
-        var temps = new Chart(ctx, {
-          type: "line",
-          data: {
-            labels: x,
-            datasets: [{
-              data: y,
-              lineTension: 0,
-              backgroundColor: "transparent",
-              borderColor: "#007bff",
-              borderWidth: 2
-            }]
+      var temps = new Chart(ctx, {
+        type: "line",
+        data: {
+          labels: [],
+          datasets: [{
+            data: [],
+            lineTension: 0,
+            backgroundColor: "transparent",
+            borderColor: "#007bff",
+            borderWidth: 2
+          }]
+        },
+        options: {
+          elements: {
+            point:{
+              radius: 0 // make the graph more aesthetic
+            }
           },
-          options: {
-            scales: {
-              yAxes: [{
-                  ticks: {
-                      min: 12,
-                      max: 40,
-                      stepSize: 2
-                  }
-              }]
-            },
-            legend: {
-              display: false,
+          scales: {
+            yAxes: [{
+              ticks: {
+                min: 14,
+                max: 36,
+                stepSize: 2
+              }
+            }],
+            xAxes: [{
+              ticks: {
+                autoSkip: true,
+                maxTicksLimit: 20,
+                userCallback: function(label, index, labels) {
+                  // strip down x-axis labels
+                  return label.substring(11,16)
+                },
+              }
+            }],
+          },
+          legend: {
+            display: false,
+          },
+          tooltips: {
+            yAlign: "top",
+            mode: "x-axis", // always show tooltip on chart hover
+            callbacks: {
+              title: function(tooltipItem){
+                // show full datetime string in tooltip
+                return this._data.labels[tooltipItem[0].index];
+              }
             }
           }
-        });
+        }
       });
+
+      function updateData() {
+        $.get("/temperature/read", function(data) {
+          var y = [], x = [];
+
+          cur.innerHTML = parseFloat(data[0].temp).toFixed(2);
+          upd.innerHTML = data[data.length - 1].timestamp;
+
+          for (var i = 0; i < data.length; i++) {
+            x.push(data[i].timestamp);
+            y.push(parseFloat(data[i].temp).toFixed(2));
+          }
+
+          temps.data.labels = x;
+          temps.data.datasets[0].data = y;
+
+          temps.update();
+          console.log("Fetched new data");
+        });
+      }
+
+      updateData();
+      setInterval(updateData, 10000);
     </script>
   </body>
 </html>
