@@ -90,7 +90,7 @@
         $.get("/temperature/read", function(data) {
           var y = [], x = [];
 
-          cur.innerHTML = parseFloat(data[0].temp).toFixed(2);
+          cur.innerHTML = parseFloat(data[data.length - 1].temp).toFixed(2);
           upd.innerHTML = data[data.length - 1].timestamp;
 
           for (var i = 0; i < data.length; i++) {
