@@ -1,18 +1,21 @@
-#      _       _        
+#       _       _
 #  ___ (_) __ _| | _____  sjaks@github
 # / __|| |/ _` | |/ / __| jaks.fi
 # \__ \| | (_| |   <\__ \ ------------
 # |___// |\__,_|_|\_\___/ tempbodge
-#    |__/                
+#    |__/
 #
 # BRIEF:
-# Reads the W1 temp sensor and sends 
+# Reads the W1 temp sensor and sends
 # values to cloud. Depends on:
-# apt-get install python3-w1thermsensor
+#   apt-get install \
+#   python3-w1thermsensor \
+#   python3-schedule
 
 from datetime import datetime
 import requests
-import threading
+import schedule
+import time
 from w1thermsensor import W1ThermSensor
 
 
@@ -21,25 +24,17 @@ ENTRYPOINT = "https://jaks.fi/temperature/post"
 SENSOR = W1ThermSensor()
 
 
-# Helper for periodical function calls
-def setInterval(func, interval):
-    ev = threading.Event()
-    while not ev.wait(interval):
-        func()
-
-
 # Read temperature sensor and send value to entrypoint
 def send_temp():
     temp = SENSOR.get_temperature()
-    curtime = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+    curtime = datetime.now().strftime("%d/%m/%Y %H:%M")
     payload = {"timestamp": curtime, "temp": temp, "secret": TOKEN}
     print(payload)
     req = requests.get(url = ENTRYPOINT, params = payload)
 
 
-def main():
-    send_temp()
-    setInterval(send_temp, 600)
-
-
-main()
+# Init a scheduler and send temps every 5 minutes
+schedule.every(5).minutes.do(send_temp)
+while True:
+    schedule.run_pending()
+    time.sleep(1)
