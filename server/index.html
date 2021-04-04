@@ -4,6 +4,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Temperature monitor</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css">
   </head>
   <body>
     <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
@@ -16,12 +17,41 @@
     </nav>
     <div class="container-fluid">
       <br>
-      <div class="row">
-        <div class="container">
-          <h1>Current temperature: <span id="currTemp"></span>&deg;C</h1>
-          <br>
-          <canvas class="my-4" id="temps" width="700" height="380"></canvas>
+      <br>
+      <div class="container">
+        <div class="row">
+          <div class="col-3">
+            <div class="card" style="width: 17rem;">
+              <div class="card-body">
+                <h6 class="card-subtitle mb-2 text-muted">Current temperature
+                  <i id="trendUp" style="padding: 5px; font-size: 0.85rem; display: none;" class="bi bi-arrow-up-circle-fill text-success"></i>
+                  <i id="trendDown" style="padding: 5px; font-size: 0.85rem; display: none;" class="bi bi-arrow-down-circle-fill text-danger"></i>
+                </h6>
+                <h2><span class="text-primary" id="currTemp"></span><span style="font-size: 1.7rem" class="text-dark">&deg;C</span></h2>
+              </div>
+            </div>
+          </div>
+          <div class="col-3">
+            <div class="card" style="width: 17rem;">
+              <div class="card-body">
+                <h6 class="card-subtitle mb-2 text-muted">Highest temperature in 24h</h6>
+                <h2><span class="text-danger" id="maxTemp"></span><span style="font-size: 1.7rem" class="text-dark">&deg;C</span></h2>
+              </div>
+            </div>
+          </div>
+          <div class="col-3">
+            <div class="card" style="width: 17rem;">
+              <div class="card-body">
+                <h6 class="card-subtitle mb-2 text-muted">Lowest temperature in 24h</h6>
+                <h2><span class="text-success" id="minTemp"></span><span style="font-size: 1.7rem" class="text-dark">&deg;C</span></h2>
+              </div>
+            </div>
+          </div>
         </div>
+        <br>
+        <br>
+        <h4>Temperature at 10 minute intervals</h4>
+        <canvas class="my-4" id="temps" width="700" height="380"></canvas>
       </div>
     </div>
 
@@ -30,8 +60,13 @@
 
     <script>
       var cur = document.getElementById("currTemp");
+      var mxt = document.getElementById("maxTemp");
+      var mnt = document.getElementById("minTemp");
       var upd = document.getElementById("updateTime");
       var ctx = document.getElementById("temps");
+
+      var tru = document.getElementById("trendUp");
+      var trd = document.getElementById("trendDown");
 
       var temps = new Chart(ctx, {
         type: "line",
@@ -76,6 +111,7 @@
           tooltips: {
             yAlign: "top",
             mode: "x-axis", // always show tooltip on chart hover
+            displayColors: false,
             callbacks: {
               title: function(tooltipItem){
                 // show full datetime string in tooltip
@@ -91,6 +127,9 @@
           var y = [], x = [];
 
           cur.innerHTML = parseFloat(data[data.length - 1].temp).toFixed(2);
+          mxt.innerHTML = parseFloat(Math.max.apply(Math, data.map(function(el) { return el.temp; }))).toFixed(2);
+          mnt.innerHTML = parseFloat(Math.min.apply(Math, data.map(function(el) { return el.temp; }))).toFixed(2);
+
           upd.innerHTML = data[data.length - 1].timestamp;
 
           for (var i = 0; i < data.length; i++) {
@@ -98,8 +137,18 @@
             y.push(parseFloat(data[i].temp).toFixed(2));
           }
 
+          for (var i = data.lenght - 10; i < data.length; i++) {
+            recentValues.push(data[i].temp);
+          }
+
           temps.data.labels = x;
           temps.data.datasets[0].data = y;
+
+          if (data[data.length - 1].temp >= data[data.length - 2].temp) {
+            tru.style.display = "inline";
+          } else {
+            trd.style.display = "inline";
+          }
 
           temps.update();
           console.log("Fetched new data");
