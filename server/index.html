@@ -148,8 +148,10 @@
 
           if (data[data.length - 1].temp >= data[data.length - 2].temp) {
             tru.style.display = "inline";
+            trd.style.display = "none";
           } else {
             trd.style.display = "inline";
+            tru.style.display = "none";
           }
 
           temps.update();
