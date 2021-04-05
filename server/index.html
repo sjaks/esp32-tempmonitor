@@ -22,29 +22,32 @@
       <br>
       <div class="container">
         <div class="row">
-          <div class="col-3">
-            <div class="card" style="width: 17rem; height: 7rem">
+          <div class="block" style="padding-left: 15px;">
+            <div class="card" style="width: 14rem; height: 7rem">
               <div class="card-body">
-                <h6 class="card-subtitle mb-2" style="color: #555b6e !important;">Current temperature (&deg;C) </h6>
-                <h2><span style="color: #343a40; float: left;" id="currTemp"></span></h2>
+                <h6 class="card-subtitle mb-2" style="color: #555b6e !important;">Current temperature</h6>
+                <h2><span style="color: #59cccc; float: left;" id="currTemp"></span></h2>
                 <i id="trendUp" style="padding: 5px; font-size: 1.4rem; display: none; color: #d90429; float: left;" class="bi bi-arrow-up-short"></i>
                 <i id="trendDown" style="padding: 5px; font-size: 1.4rem; display: none; color: #4694f5; float: left;" class="bi bi-arrow-down-short"></i>
+                <small style="color: #555b6e; position:absolute; right: 10px; bottom: 10px;">&deg;C</small>
               </div>
             </div>
           </div>
-          <div class="col-3">
-            <div class="card" style="width: 17rem; height: 7rem">
+          <div class="block" style="padding-left: 15px;">
+            <div class="card" style="width: 14rem; height: 7rem">
               <div class="card-body">
-                <h6 class="card-subtitle mb-2" style="color: #555b6e !important;">Highest temperature (&deg;C, 24h)</h6>
+                <h6 class="card-subtitle mb-2" style="color: #555b6e !important;">Highest temperature</h6>
                 <h2><span style="color: #d90429;" id="maxTemp"></span></h2>
+                <small style="color: #555b6e; position:absolute; right: 10px; bottom: 10px;">&deg;C, 24h</small>
               </div>
             </div>
           </div>
-          <div class="col-3">
-            <div class="card" style="width: 17rem; height: 7rem">
+          <div class="block" style="padding-left: 15px;">
+            <div class="card" style="width: 14rem; height: 7rem">
               <div class="card-body">
-                <h6 class="card-subtitle mb-2" style="color: #555b6e !important;">Lowest temperature (&deg;C, 24h)</h6>
+                <h6 class="card-subtitle mb-2" style="color: #555b6e !important;">Lowest temperature</h6>
                 <h2><span style="color: #4694f5;" id="minTemp"></span></h2>
+                <small style="color: #555b6e; position:absolute; right: 10px; bottom: 10px;">&deg;C, 24h</small>
               </div>
             </div>
           </div>
@@ -71,20 +74,39 @@
         type: "line",
         data: {
           labels: [],
-          datasets: [{
-            data: [],
-            lineTension: 0,
-            backgroundColor: "transparent",
-            borderColor: "#343a40",
-            borderWidth: 2
-          }]
+          datasets: [
+            {
+              label: "temps",
+              data: [],
+              lineTension: 0,
+              backgroundColor: "transparent",
+              borderColor: "#59cccc",
+              borderWidth: 2,
+              pointRadius: 0
+            },
+            {
+              label: "maxline",
+              data: [],
+              lineTension: 0,
+              backgroundColor: "transparent",
+              borderColor: "#d90429",
+              borderWidth: 2,
+              pointRadius: 0,
+              borderDash: [2, 10]
+            },
+            {
+              label: "minline",
+              data: [],
+              lineTension: 0,
+              backgroundColor: "transparent",
+              borderColor: "#4694f5",
+              borderWidth: 2,
+              pointRadius: 0,
+              borderDash: [2, 10]
+            }
+          ]
         },
         options: {
-          elements: {
-            point:{
-              radius: 0 // make the graph more aesthetic
-            }
-          },
           scales: {
             yAxes: [{
               ticks: {
@@ -107,6 +129,9 @@
           legend: {
             display: false,
           },
+          hover: {
+            mode: null
+          },
           tooltips: {
             yAlign: "top",
             mode: "x-axis", // always show tooltip on chart hover
@@ -116,8 +141,11 @@
                 // show full datetime string in tooltip
                 return this._data.labels[tooltipItem[0].index].substring(0, 16);
               },
-              label: function(tooltipItems, data) { 
-                return tooltipItems.yLabel.toFixed(2) + "°C";
+              label: function(tooltipItems, data) {
+                if (data.datasets[tooltipItems.datasetIndex].label == "temps") {
+                  // Only show current temperatures in tooltip
+                  return tooltipItems.yLabel.toFixed(2) + "°C";
+                }
               }
             }
           }
@@ -125,7 +153,7 @@
       });
 
       function updateData() {
-        $.get("https://jaks.fi/temperature/read", function(data) {
+        $.get("/temperature/read", function(data) {
           var y = [], x = [];
 
           cur.innerHTML = parseFloat(data[data.length - 1].temp).toFixed(2);
@@ -145,6 +173,11 @@
 
           temps.data.labels = x;
           temps.data.datasets[0].data = y;
+
+          var maxSeries = Array(data.length);
+          var minSeries = Array(data.length);
+          temps.data.datasets[1].data = maxSeries.fill(mxt.innerHTML, 0, data.length);
+          temps.data.datasets[2].data = minSeries.fill(mnt.innerHTML, 0, data.length);
 
           if (data[data.length - 1].temp >= data[data.length - 2].temp) {
             tru.style.display = "inline";
