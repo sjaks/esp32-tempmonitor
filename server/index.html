@@ -27,8 +27,8 @@
               <div class="card-body">
                 <h6 class="card-subtitle mb-2" style="color: #555b6e !important;">Current temperature (&deg;C) </h6>
                 <h2><span style="color: #343a40; float: left;" id="currTemp"></span></h2>
-                <i id="trendUp" style="padding: 8px; font-size: 0.75rem; display: none; color: #d90429; float: left;" class="bi bi-arrow-up-circle-fill"></i>
-                <i id="trendDown" style="padding: 8px; font-size: 0.75rem; display: none; color: #4694f5; float: left;" class="bi bi-arrow-down-circle-fill"></i>
+                <i id="trendUp" style="padding: 5px; font-size: 1.4rem; display: none; color: #d90429; float: left;" class="bi bi-arrow-up-short"></i>
+                <i id="trendDown" style="padding: 5px; font-size: 1.4rem; display: none; color: #4694f5; float: left;" class="bi bi-arrow-down-short"></i>
               </div>
             </div>
           </div>
@@ -125,7 +125,7 @@
       });
 
       function updateData() {
-        $.get("/temperature/read", function(data) {
+        $.get("https://jaks.fi/temperature/read", function(data) {
           var y = [], x = [];
 
           cur.innerHTML = parseFloat(data[data.length - 1].temp).toFixed(2);
