@@ -9,5 +9,5 @@ fit your use case and use Apache or Nginx to point to the port 10990.
 
 On Raspberry Pi, use the following cron job, for example:
 ```
-*/10 * * * * /usr/bin/python3 /home/sami/tempbodge/tempbodge_fetcher.py
+*/5 * * * * /usr/bin/python3 /home/sami/tempbodge/tempbodge_fetcher.py
 ```

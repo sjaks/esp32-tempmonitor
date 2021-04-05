@@ -39,9 +39,10 @@ const requestListener = function (req, res) {
         // Require authentication and write given data
         if (querySecret === secret) {
             data = JSON.parse(fs.readFileSync(__dirname + "/temps"));
-            if (data.length >= 150) {
+            if (data.length >= 287) {
                 // If the log is growing too large,
-                // pop the first element first
+                // pop the first element out
+                // (limit to 24h = 1440 min)
                 data.shift()
             }
             data.push({
