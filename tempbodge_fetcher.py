@@ -8,15 +8,22 @@
 # BRIEF:
 # Reads the W1 temp sensor and sends
 # values to cloud. Depends on:
-# apt-get install python3-w1thermsensor
+# apt-get install python3-w1thermsensor python3-dotenv
 
+import os
 from datetime import datetime
 import requests
 from w1thermsensor import W1ThermSensor
+from dotenv import load_dotenv
 
 
-TOKEN = "secret" # change to a secure password
-ENTRYPOINT = "https://jaks.fi/temperature/post"
+# Load env vars from .env
+load_dotenv()
+
+
+# Define constants
+TOKEN = os.getenv("SECRET")
+ENTRYPOINT = os.getenv("HOST") + "/post"
 SENSOR = W1ThermSensor()
 
 

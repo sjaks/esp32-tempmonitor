@@ -12,9 +12,14 @@ Tempbodge server implementation
 const http = require('http');
 const url = require('url');
 const fs = require('fs');
-require('dotenv').config();
+const path = require('path')
+require('dotenv').config({ path: path.resolve(__dirname, "../.env") })
+
 
 const secret = process.env.SECRET;
+var mainPageContent = fs.readFileSync(__dirname + "/index.html", { encoding: "utf8" });
+mainPageContent = mainPageContent.replace("_HOST_", process.env.HOST);
+
 
 const requestListener = function (req, res) {
     // Set default HTTP response values
@@ -29,7 +34,7 @@ const requestListener = function (req, res) {
 
     if (path == "") {
         // Serve front-end interface
-        responseText = fs.readFileSync(__dirname + "/index.html", { encoding: "utf8" });
+        responseText = mainPageContent;
     } else if (path == "read") {
         // Entrypoint for front-end to get latest data
         data = fs.readFileSync(__dirname + "/temps");
