@@ -20,6 +20,8 @@ ENTRYPOINT = "https://jaks.fi/temperature/post"
 SENSOR = W1ThermSensor()
 
 
+# Get current time and temperature reading from the GPIO
+# and post to the server
 curtime = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
 temp = SENSOR.get_temperature()
 payload = {"timestamp": curtime, "temp": temp, "secret": TOKEN}

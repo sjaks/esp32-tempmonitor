@@ -45,27 +45,33 @@ const requestListener = function (req, res) {
                 // (limit to 24h = 1440 min)
                 data.shift()
             }
+
+            // Fill the payload with data
             data.push({
                 "timestamp": queryObject.query.timestamp,
                 "temp": queryObject.query.temp
             });
+
             // Write new temp data to the back of the temp array file
             fs.writeFileSync(__dirname + "/temps", JSON.stringify(data));
             responseText = "success";
         } else {
+            // Unauthorized access to post URL
             returnCode = 401;
             responseText = "failure";
         }
     } else {
+        // Requested URL not found
         returnCode = 404;
         responseText = "failure";
     }
 
-    // Respond
+    // Respond with a return code and possible data
     res.setHeader("Content-Type", header);
     res.writeHead(returnCode);
     res.end(responseText);
 }
+
 
 const server = http.createServer(requestListener);
 server.listen(10990);
