@@ -16,8 +16,13 @@ const path = require('path')
 require('dotenv').config({ path: path.resolve(__dirname, "../.env") })
 
 
+// Define env vars
 const secret = process.env.SECRET;
-var mainPageContent = fs.readFileSync(__dirname + "/index.html", { encoding: "utf8" });
+
+
+// Read static files into memory
+var mainChartLogic = fs.readFileSync(__dirname + "/static/chart.js", { encoding: "utf8" });
+var mainPageContent = fs.readFileSync(__dirname + "/static/index.html", { encoding: "utf8" });
 mainPageContent = mainPageContent.replace("_HOST_", process.env.HOST);
 
 
@@ -32,43 +37,55 @@ const requestListener = function (req, res) {
     const path = queryObject.pathname.replace(/\//g, "");
     const querySecret = queryObject.query.secret;
 
-    if (path == "") {
+    switch (path) {
         // Serve front-end interface
-        responseText = mainPageContent;
-    } else if (path == "read") {
+        case "":
+            responseText = mainPageContent;
+            break;
+
         // Entrypoint for front-end to get latest data
-        data = fs.readFileSync(__dirname + "/temps");
-        header = "text/json";
-        responseText = data;
-    } else if (path == "post") {
-        // Require authentication and write given data
-        if (querySecret === secret) {
-            data = JSON.parse(fs.readFileSync(__dirname + "/temps"));
-            if (data.length >= 287) {
-                // If the log is growing too large,
-                // pop the first element out
-                // (limit to 24h = 1440 min)
-                data.shift()
+        case "read":
+            data = fs.readFileSync(__dirname + "/temps");
+            header = "text/json";
+            responseText = data;
+            break;
+
+        // Entrypoint for posting new temperature data from a client
+        case "post":
+            // Require authentication and write given data
+            if (querySecret === secret) {
+                data = JSON.parse(fs.readFileSync(__dirname + "/temps"));
+                if (data.length >= 289) {
+                    // Pop the first element out (limit to 24h)
+                    data.shift()
+                }
+
+                // Fill the payload with data
+                data.push({
+                    "timestamp": queryObject.query.timestamp,
+                    "temp": queryObject.query.temp
+                });
+
+                // Write new temp data to the back of the temp array file
+                fs.writeFileSync(__dirname + "/temps", JSON.stringify(data));
+                responseText = "success";
+            } else {
+                // Unauthorized access to post URL
+                returnCode = 401;
+                responseText = "failure";
             }
+            break;
 
-            // Fill the payload with data
-            data.push({
-                "timestamp": queryObject.query.timestamp,
-                "temp": queryObject.query.temp
-            });
+        // Return main chart
+        case "chart.js":
+            responseText = mainChartLogic;
+            break;
 
-            // Write new temp data to the back of the temp array file
-            fs.writeFileSync(__dirname + "/temps", JSON.stringify(data));
-            responseText = "success";
-        } else {
-            // Unauthorized access to post URL
-            returnCode = 401;
-            responseText = "failure";
-        }
-    } else {
         // Requested URL not found
-        returnCode = 404;
-        responseText = "failure";
+        default:
+            returnCode = 404;
+            responseText = "failure";
+            break;
     }
 
     // Respond with a return code and possible data
@@ -78,5 +95,6 @@ const requestListener = function (req, res) {
 }
 
 
+// Start the server
 const server = http.createServer(requestListener);
 server.listen(10990);

@@ -1,0 +1,73 @@
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Temperature monitor</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css">
+  </head>
+  <body>
+    <!-- top bar with logo and last update timestamp -->
+    <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
+      <div class="container">
+        <a class="navbar-brand" href="#"><i class="bi bi-thermometer-half"></i> Temperature monitor</a>
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <small style="color: #ffffff"><i class="bi bi-clock"></i> Updated: <span id="updateTime"></span></small>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <!-- main content area -->
+    <div class="container-fluid">
+      <br>
+      <br>
+      <div class="container">
+        <div class="row">
+          <div class="block" style="padding-left: 15px;">
+            <div class="card" style="width: 14rem; height: 7rem; margin-bottom: 15px;">
+              <div class="card-body">
+                <!-- card for showing the current temperature -->
+                <h6 class="card-subtitle mb-2" style="color: #555b6e !important;">Current temperature</h6>
+                <h2><span style="color: #59cccc; float: left;" id="currTemp"></span></h2>
+                <i id="trendUp" style="padding: 5px; font-size: 1.4rem; display: none; color: #d90429; float: left;" class="bi bi-arrow-up-short"></i>
+                <i id="trendDown" style="padding: 5px; font-size: 1.4rem; display: none; color: #4694f5; float: left;" class="bi bi-arrow-down-short"></i>
+                <small style="color: #555b6e; position:absolute; right: 10px; bottom: 10px;">&deg;C</small>
+              </div>
+            </div>
+          </div>
+          <div class="block" style="padding-left: 15px;">
+            <div class="card" style="width: 14rem; height: 7rem; margin-bottom: 15px;">
+              <div class="card-body">
+                <!-- card for showing the maximum temperature -->
+                <h6 class="card-subtitle mb-2" style="color: #555b6e !important;">Highest temperature</h6>
+                <h2><span style="color: #d90429;" id="maxTemp"></span></h2>
+                <small style="color: #555b6e; position:absolute; right: 10px; bottom: 10px;">&deg;C, 24h</small>
+              </div>
+            </div>
+          </div>
+          <div class="block" style="padding-left: 15px;">
+            <div class="card" style="width: 14rem; height: 7rem; margin-bottom: 15px;">
+              <div class="card-body">
+                <!-- card for showing the minimum temperature -->
+                <h6 class="card-subtitle mb-2" style="color: #555b6e !important;">Lowest temperature</h6>
+                <h2><span style="color: #4694f5;" id="minTemp"></span></h2>
+                <small style="color: #555b6e; position:absolute; right: 10px; bottom: 10px;">&deg;C, 24h</small>
+              </div>
+            </div>
+          </div>
+        </div>
+        <br>
+        <!-- main graph canvas -->
+        <canvas class="my-4" id="temps" width="700" height="380"></canvas>
+      </div>
+    </div>
+
+    <!-- load external JS libraries -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
+
+    <!-- load main chart -->
+    <script src="chart.js"></script>
+  </body>
+</html>
