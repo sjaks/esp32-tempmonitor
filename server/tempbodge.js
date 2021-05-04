@@ -18,11 +18,12 @@ require('dotenv').config({ path: path.resolve(__dirname, "../.env") })
 
 // Define env vars
 const secret = process.env.SECRET;
+process.env.DEV == "true" ? urlPrefix = "temperature" : urlPrefix = "";
 
 
 // Read static files into memory
 var mainPageContent = fs.readFileSync(__dirname + "/static/index.html", { encoding: "utf8" });
-var mainChartLogic = fs.readFileSync(__dirname + "/static/chart.js", { encoding: "utf8" }).replace("_HOST_", process.env.HOST);
+var mainChartLogic = fs.readFileSync(__dirname + "/static/chart.js", { encoding: "utf8" });
 
 
 const requestListener = function (req, res) {
@@ -38,19 +39,19 @@ const requestListener = function (req, res) {
 
     switch (path) {
         // Serve front-end interface
-        case "":
+        case urlPrefix + "":
             responseText = mainPageContent;
             break;
 
         // Entrypoint for front-end to get latest data
-        case "read":
+        case urlPrefix + "read":
             data = fs.readFileSync(__dirname + "/temps");
             header = "text/json";
             responseText = data;
             break;
 
         // Entrypoint for posting new temperature data from a client
-        case "post":
+        case urlPrefix + "post":
             // Require authentication and write given data
             if (querySecret === secret) {
                 data = JSON.parse(fs.readFileSync(__dirname + "/temps"));
@@ -76,7 +77,7 @@ const requestListener = function (req, res) {
             break;
 
         // Return main chart
-        case "chart.js":
+        case urlPrefix + "chart.js":
             responseText = mainChartLogic;
             break;
 

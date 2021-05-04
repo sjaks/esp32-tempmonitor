@@ -105,22 +105,7 @@ options: {
 // Function for getting new data and parsing it into the UI elements
 function updateData() {
 // Define path to backend data entrypoint.
-var host = location.hostname;
-var url;
-
-if (host == "") {
-    // Frontend accessed straight by opening the .html file,
-    // get data from the main production site
-    url = "https://jaks.fi/temperature/read";
-} else if (host == "localhost" || host == "127.0.0.1") {
-    // Frontend accessed via a local development env,
-    // get data from the development backend
-    url = "/read";
-} else {
-    // Otherwise, let the backend pass the desired hostname
-    // for the frontend and fetch the data from there
-    url = "_HOST_/read";
-}
+var url = "temperature/read";
 
 
 // Make GET request to backend
