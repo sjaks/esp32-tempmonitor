@@ -21,9 +21,8 @@ const secret = process.env.SECRET;
 
 
 // Read static files into memory
-var mainChartLogic = fs.readFileSync(__dirname + "/static/chart.js", { encoding: "utf8" });
 var mainPageContent = fs.readFileSync(__dirname + "/static/index.html", { encoding: "utf8" });
-mainPageContent = mainPageContent.replace("_HOST_", process.env.HOST);
+var mainChartLogic = fs.readFileSync(__dirname + "/static/chart.js", { encoding: "utf8" }).replace("_HOST_", process.env.HOST);
 
 
 const requestListener = function (req, res) {
