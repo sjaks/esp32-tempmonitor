@@ -20,120 +20,121 @@ type: "line",
 data: {
     labels: [], // x-axis labels
     datasets: [
-    {
-        // y-dataset for observed indoor temperatures
-        label: "temps",
-        data: [],
-        lineTension: 0,
-        backgroundColor: "transparent",
-        borderColor: "#4cb5b5",
-        borderWidth: 2,
-        pointRadius: 0
-    },
-    {
-        // y-dataset for day's maximum indoor temperature line,
-        // shows a horizontal line at the max temperature
-        label: "maxline",
-        data: [],
-        lineTension: 0,
-        backgroundColor: "transparent",
-        borderColor: "#439898",
-        borderWidth: 2,
-        pointRadius: 0,
-        borderDash: [2, 10]
-    },
-    {
-        // y-dataset for day's minimum indoor temperature line,
-        // shows a horizontal line at the min temperature
-        label: "minline",
-        data: [],
-        lineTension: 0,
-        backgroundColor: "transparent",
-        borderColor: "#59cccc",
-        borderWidth: 2,
-        pointRadius: 0,
-        borderDash: [2, 10]
-    },
-    {
-        // y-dataset for observed outdoor temperatures
-        label: "temps_out",
-        data: [],
-        lineTension: 0,
-        backgroundColor: "transparent",
-        borderColor: "#e4629f",
-        borderWidth: 2,
-        pointRadius: 0
-    },
-    {
-        // y-dataset for day's maximum outdoor temperature line,
-        // shows a horizontal line at the max temperature
-        label: "maxline_out",
-        data: [],
-        lineTension: 0,
-        backgroundColor: "transparent",
-        borderColor: "#c16e95",
-        borderWidth: 2,
-        pointRadius: 0,
-        borderDash: [2, 10]
-    },
-    {
-        // y-dataset for day's minimum outdoor temperature line,
-        // shows a horizontal line at the min temperature
-        label: "minline_out",
-        data: [],
-        lineTension: 0,
-        backgroundColor: "transparent",
-        borderColor: "#e07fac",
-        borderWidth: 2,
-        pointRadius: 0,
-        borderDash: [2, 10]
-    },
+        {
+            // y-dataset for observed indoor temperatures
+            label: "Indoors",
+            data: [],
+            lineTension: 0,
+            backgroundColor: "transparent",
+            borderColor: "#4cb5b5",
+            borderWidth: 2,
+            pointRadius: 0
+        },
+        {
+            // y-dataset for day's maximum indoor temperature line,
+            // shows a horizontal line at the max temperature
+            label: "Indoors max",
+            data: [],
+            lineTension: 0,
+            backgroundColor: "transparent",
+            borderColor: "#439898",
+            borderWidth: 2,
+            pointRadius: 0,
+            borderDash: [2, 10]
+        },
+        {
+            // y-dataset for day's minimum indoor temperature line,
+            // shows a horizontal line at the min temperature
+            label: "Indoors min",
+            data: [],
+            lineTension: 0,
+            backgroundColor: "transparent",
+            borderColor: "#59cccc",
+            borderWidth: 2,
+            pointRadius: 0,
+            borderDash: [2, 10]
+        },
+        {
+            // y-dataset for observed outdoor temperatures
+            label: "Outdoors",
+            data: [],
+            lineTension: 0,
+            backgroundColor: "transparent",
+            borderColor: "#e4629f",
+            borderWidth: 2,
+            pointRadius: 0
+        },
+        {
+            // y-dataset for day's maximum outdoor temperature line,
+            // shows a horizontal line at the max temperature
+            label: "Outdoors max",
+            data: [],
+            lineTension: 0,
+            backgroundColor: "transparent",
+            borderColor: "#c16e95",
+            borderWidth: 2,
+            pointRadius: 0,
+            borderDash: [2, 10]
+        },
+        {
+            // y-dataset for day's minimum outdoor temperature line,
+            // shows a horizontal line at the min temperature
+            label: "Outdoors min",
+            data: [],
+            lineTension: 0,
+            backgroundColor: "transparent",
+            borderColor: "#e07fac",
+            borderWidth: 2,
+            pointRadius: 0,
+            borderDash: [2, 10]
+        },
     ]
 },
 options: {
     scales: {
-    yAxes: [{
-        ticks: {
-        // Use some intuitive max and min
-        // values for the temperature y-axis
-        min: 14,
-        max: 36,
-        stepSize: 2
-        }
-    }],
-    xAxes: [{
-        ticks: {
-        autoSkip: true,
-        maxTicksLimit: 20,
-        userCallback: function(label, index, labels) {
-            // Strip down x-axis labels
-            return label.substring(11,16)
-        },
-        }
-    }],
+        yAxes: [{
+            ticks: {
+            // Use some intuitive max and min
+            // values for the temperature y-axis
+            min: 14,
+            max: 36,
+            stepSize: 2
+            }
+        }],
+        xAxes: [{
+            ticks: {
+            autoSkip: true,
+            maxTicksLimit: 20,
+            userCallback: function(label, index, labels) {
+                // Strip down x-axis labels
+                return label.substring(11,16)
+            },
+            }
+        }],
     },
     legend: {
-    display: false // legend not needed since there's just one relevant dataset
+        display: false // legend not needed since there's just one relevant dataset
     },
     hover: {
-    mode: null // disables on-hover datapoint highlight
+        mode: null // disables on-hover datapoint highlight
     },
     tooltips: {
-    yAlign: "top",
-    mode: "x-axis", // always show tooltip on chart hover
-    displayColors: false, // don't show line color square in tooltip
-    callbacks: {
-        title: function(tooltipItem){
-        // Show full datetime string in tooltip
-        return this._data.labels[tooltipItem[0].index].substring(0, 16);
-        },
-        label: function(tooltipItems, data) {
-        if (data.datasets[tooltipItems.datasetIndex].label == "temps") {
-            // Only show current temperatures in tooltip
-            return tooltipItems.yLabel.toFixed(2) + "°C";
+        yAlign: "top",
+        mode: "x-axis", // always show tooltip on chart hover
+        displayColors: false, // don't show line color square in tooltip
+        callbacks: {
+            title: function(tooltipItem){
+                // Show full datetime string in tooltip
+                return this._data.labels[tooltipItem[0].index].substring(0, 16);
+            },
+            label: function(tooltipItems, data) {
+                let label = data.datasets[tooltipItems.datasetIndex].label;
+                if (label == "Indoors" || label == "Outdoors") {
+                    // Only show current temperatures in tooltip
+                    return label + ": " + tooltipItems.yLabel.toFixed(2) + "°C";
+                }
+            }
         }
-        }
-    }
     }
 }
 });
