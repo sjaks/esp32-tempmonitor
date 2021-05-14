@@ -28,7 +28,8 @@ data: {
             backgroundColor: "transparent",
             borderColor: "#4cb5b5",
             borderWidth: 2,
-            pointRadius: 0
+            pointRadius: 0,
+            yAxisID: "Indoors"
         },
         {
             // y-dataset for day's maximum indoor temperature line,
@@ -40,7 +41,8 @@ data: {
             borderColor: "#439898",
             borderWidth: 2,
             pointRadius: 0,
-            borderDash: [2, 10]
+            borderDash: [2, 10],
+            yAxisID: "Indoors"
         },
         {
             // y-dataset for day's minimum indoor temperature line,
@@ -52,7 +54,8 @@ data: {
             borderColor: "#59cccc",
             borderWidth: 2,
             pointRadius: 0,
-            borderDash: [2, 10]
+            borderDash: [2, 10],
+            yAxisID: "Indoors"
         },
         {
             // y-dataset for observed outdoor temperatures
@@ -62,7 +65,8 @@ data: {
             backgroundColor: "transparent",
             borderColor: "#e4629f",
             borderWidth: 2,
-            pointRadius: 0
+            pointRadius: 0,
+            yAxisID: "Outdoors"
         },
         {
             // y-dataset for day's maximum outdoor temperature line,
@@ -74,7 +78,8 @@ data: {
             borderColor: "#c16e95",
             borderWidth: 2,
             pointRadius: 0,
-            borderDash: [2, 10]
+            borderDash: [2, 10],
+            yAxisID: "Outdoors"
         },
         {
             // y-dataset for day's minimum outdoor temperature line,
@@ -86,19 +91,33 @@ data: {
             borderColor: "#e07fac",
             borderWidth: 2,
             pointRadius: 0,
-            borderDash: [2, 10]
+            borderDash: [2, 10],
+            yAxisID: "Outdoors"
         },
     ]
 },
 options: {
     scales: {
         yAxes: [{
+            id: "Indoors",
+            position: 'left',
             ticks: {
-            // Use some intuitive max and min
-            // values for the temperature y-axis
-            min: 14,
-            max: 36,
-            stepSize: 2
+                // Use some intuitive max and min
+                // values for the temperature y-axis
+                min: 12,
+                max: 36,
+                stepSize: 2,
+            }
+        },
+        {
+            id: "Outdoors",
+            position: 'right',
+            ticks: {
+                // Use some intuitive max and min
+                // values for the temperature y-axis
+                min: 30,
+                max: -30,
+                stepSize: 5,
             }
         }],
         xAxes: [{
