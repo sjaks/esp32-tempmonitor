@@ -10,8 +10,10 @@ var ctx = document.getElementById("temps");
 
 
 // Handles to trend DOM elements
-var tru = document.getElementById("trendUp");
-var trd = document.getElementById("trendDown");
+var trui = document.getElementById("trendUpIn");
+var trdi = document.getElementById("trendDownIn");
+var truo = document.getElementById("trendUpOut");
+var trdo = document.getElementById("trendDownOut");
 
 
 // Main temperature graph
@@ -141,6 +143,12 @@ options: {
         yAlign: "top",
         mode: "x-axis", // always show tooltip on chart hover
         displayColors: false, // don't show line color square in tooltip
+        caretSize: 0,
+        backgroundColor: "#ffffff",
+        titleFontColor: "#555b6e",
+        bodyFontColor: "#555b6e",
+        borderColor: "rgba(0,0,0,.125)",
+        borderWidth: 1,
         callbacks: {
             title: function(tooltipItem){
                 // Show full datetime string in tooltip
@@ -204,13 +212,20 @@ $.get(url, function(data) {
     temps.data.datasets[5].data = minSeriesOut.fill(mnto.innerHTML, 0, data.length);
 
     // Show temperature trend arrow based on temperature delta
-    // TODO: implement this for outdoors temperature block
     if (data[data.length - 1].temp >= data[data.length - 2].temp) {
-        tru.style.display = "inline";
-        trd.style.display = "none";
+        trui.style.display = "inline";
+        trdi.style.display = "none";
     } else {
-        trd.style.display = "inline";
-        tru.style.display = "none";
+        trdi.style.display = "inline";
+        trui.style.display = "none";
+    }
+
+    if (data[data.length - 1].outdoors >= data[data.length - 2].outdoors) {
+        truo.style.display = "inline";
+        trdo.style.display = "none";
+    } else {
+        trdo.style.display = "inline";
+        truo.style.display = "none";
     }
 
     // Redraw the graph
