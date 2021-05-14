@@ -1,14 +1,5 @@
-#       _       _
-#  ___ (_) __ _| | _____  sjaks@github
-# / __|| |/ _` | |/ / __| jaks.fi
-# \__ \| | (_| |   <\__ \ ------------
-# |___// |\__,_|_|\_\___/ tempbodge
-#    |__/
-#
-# BRIEF:
-# Reads the W1 temp sensor and sends
-# values to cloud. Depends on:
-# apt-get install python3-w1thermsensor python3-dotenv
+# tempbodge: temp fetcher
+# sjaks@github.com
 
 import os
 from datetime import datetime
@@ -24,12 +15,15 @@ load_dotenv()
 # Define constants
 TOKEN = os.getenv("SECRET")
 ENTRYPOINT = os.getenv("HOST") + "/post"
-SENSOR = W1ThermSensor()
+SENSOR_IN = W1ThermSensor.get_available_sensors()[0]
+SENSOR_OUT = W1ThermSensor.get_available_sensors()[1]
 
 
 # Get current time and temperature reading from the GPIO
 # and post to the server
 curtime = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
-temp = SENSOR.get_temperature()
-payload = {"timestamp": curtime, "temp": temp, "secret": TOKEN}
+temp_in = SENSOR_IN.get_temperature()
+temp_out = SENSOR_OUT.get_temperature()
+
+payload = {"timestamp": curtime, "temp": temp_in, "outdoors": temp_out, "secret": TOKEN}
 req = requests.get(url = ENTRYPOINT, params = payload)
