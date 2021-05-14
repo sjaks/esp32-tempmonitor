@@ -1,7 +1,10 @@
 // Handles to temperature DOM elements
-var cur = document.getElementById("currTemp");
-var mxt = document.getElementById("maxTemp");
-var mnt = document.getElementById("minTemp");
+var curi = document.getElementById("currTempIn");
+var curo = document.getElementById("currTempOut");
+var mxti = document.getElementById("maxTempIn");
+var mnti = document.getElementById("minTempIn");
+var mxto = document.getElementById("maxTempOut");
+var mnto = document.getElementById("minTempOut");
 var upd = document.getElementById("updateTime");
 var ctx = document.getElementById("temps");
 
@@ -18,39 +21,73 @@ data: {
     labels: [], // x-axis labels
     datasets: [
     {
-        // y-dataset for observed temperatures
+        // y-dataset for observed indoor temperatures
         label: "temps",
         data: [],
         lineTension: 0,
         backgroundColor: "transparent",
-        borderColor: "#59cccc",
+        borderColor: "#4cb5b5",
         borderWidth: 2,
         pointRadius: 0
     },
     {
-        // y-dataset for day's maximum temperature line,
+        // y-dataset for day's maximum indoor temperature line,
         // shows a horizontal line at the max temperature
         label: "maxline",
         data: [],
         lineTension: 0,
         backgroundColor: "transparent",
-        borderColor: "#d90429",
+        borderColor: "#439898",
         borderWidth: 2,
         pointRadius: 0,
         borderDash: [2, 10]
     },
     {
-        // y-dataset for day's minimum temperature line,
+        // y-dataset for day's minimum indoor temperature line,
         // shows a horizontal line at the min temperature
         label: "minline",
         data: [],
         lineTension: 0,
         backgroundColor: "transparent",
-        borderColor: "#4694f5",
+        borderColor: "#59cccc",
         borderWidth: 2,
         pointRadius: 0,
         borderDash: [2, 10]
-    }
+    },
+    {
+        // y-dataset for observed outdoor temperatures
+        label: "temps_out",
+        data: [],
+        lineTension: 0,
+        backgroundColor: "transparent",
+        borderColor: "#e4629f",
+        borderWidth: 2,
+        pointRadius: 0
+    },
+    {
+        // y-dataset for day's maximum outdoor temperature line,
+        // shows a horizontal line at the max temperature
+        label: "maxline_out",
+        data: [],
+        lineTension: 0,
+        backgroundColor: "transparent",
+        borderColor: "#c16e95",
+        borderWidth: 2,
+        pointRadius: 0,
+        borderDash: [2, 10]
+    },
+    {
+        // y-dataset for day's minimum outdoor temperature line,
+        // shows a horizontal line at the min temperature
+        label: "minline_out",
+        data: [],
+        lineTension: 0,
+        backgroundColor: "transparent",
+        borderColor: "#e07fac",
+        borderWidth: 2,
+        pointRadius: 0,
+        borderDash: [2, 10]
+    },
     ]
 },
 options: {
@@ -110,39 +147,50 @@ var url = "temperature/read";
 
 // Make GET request to backend
 $.get(url, function(data) {
-    var y = [], x = [];
+    var iy = [], ix = [];
+    var oy = [], ox = [];
 
     // Place current, max and min temperatures into card views
-    cur.innerHTML = parseFloat(data[data.length - 1].temp).toFixed(2);
-    mxt.innerHTML = parseFloat(Math.max.apply(Math, data.map(function(el) { return el.temp; }))).toFixed(2);
-    mnt.innerHTML = parseFloat(Math.min.apply(Math, data.map(function(el) { return el.temp; }))).toFixed(2);
+    curi.innerHTML = parseFloat(data[data.length - 1].temp).toFixed(2);
+    curo.innerHTML = parseFloat(data[data.length - 1].outdoors).toFixed(2);
+    mxti.innerHTML = parseFloat(Math.max.apply(Math, data.map(function(el) { return el.temp; }))).toFixed(2);
+    mnti.innerHTML = parseFloat(Math.min.apply(Math, data.map(function(el) { return el.temp; }))).toFixed(2);
+    mxto.innerHTML = parseFloat(Math.max.apply(Math, data.map(function(el) { return el.outdoors; }))).toFixed(2);
+    mnto.innerHTML = parseFloat(Math.min.apply(Math, data.map(function(el) { return el.outdoors; }))).toFixed(2);
 
     // Show the previous data fetch time in top bar
     upd.innerHTML = data[data.length - 1].timestamp;
 
     // Parse fetched data into arrays
     for (var i = 0; i < data.length; i++) {
-    x.push(data[i].timestamp);
-    y.push(parseFloat(data[i].temp).toFixed(2));
+        ix.push(data[i].timestamp);
+        iy.push(parseFloat(data[i].temp).toFixed(2));
+        oy.push(parseFloat(data[i].outdoors).toFixed(2));
     }
 
     // Place observed temperatures into the graph
-    temps.data.labels = x;
-    temps.data.datasets[0].data = y;
+    temps.data.labels = ix;
+    temps.data.datasets[0].data = iy;
+    temps.data.datasets[3].data = oy;
 
     // Create horizontal lines for max and min temperatures and draw them into the graph
-    var maxSeries = Array(data.length);
-    var minSeries = Array(data.length);
-    temps.data.datasets[1].data = maxSeries.fill(mxt.innerHTML, 0, data.length);
-    temps.data.datasets[2].data = minSeries.fill(mnt.innerHTML, 0, data.length);
+    var maxSeriesIn = Array(data.length);
+    var minSeriesIn = Array(data.length);
+    var maxSeriesOut = Array(data.length);
+    var minSeriesOut = Array(data.length);
+    temps.data.datasets[1].data = maxSeriesIn.fill(mxti.innerHTML, 0, data.length);
+    temps.data.datasets[2].data = minSeriesIn.fill(mnti.innerHTML, 0, data.length);
+    temps.data.datasets[4].data = maxSeriesOut.fill(mxto.innerHTML, 0, data.length);
+    temps.data.datasets[5].data = minSeriesOut.fill(mnto.innerHTML, 0, data.length);
 
     // Show temperature trend arrow based on temperature delta
+    // TODO: implement this for outdoors temperature block
     if (data[data.length - 1].temp >= data[data.length - 2].temp) {
-    tru.style.display = "inline";
-    trd.style.display = "none";
+        tru.style.display = "inline";
+        trd.style.display = "none";
     } else {
-    trd.style.display = "inline";
-    tru.style.display = "none";
+        trd.style.display = "inline";
+        tru.style.display = "none";
     }
 
     // Redraw the graph

@@ -28,8 +28,8 @@
             <div class="card" style="width: 14rem; height: 7rem; margin-bottom: 15px;">
               <div class="card-body">
                 <!-- card for showing the current temperature -->
-                <h6 class="card-subtitle mb-2" style="color: #555b6e !important;">Current temperature</h6>
-                <h2><span style="color: #59cccc; float: left;" id="currTemp"></span></h2>
+                <h6 class="card-subtitle mb-2" style="color: #555b6e !important;">Current indoor temp</h6>
+                <h2><span style="color: #4cb5b5; float: left;" id="currTempIn"></span></h2>
                 <i id="trendUp" style="padding: 5px; font-size: 1.4rem; display: none; color: #d90429; float: left;" class="bi bi-arrow-up-short"></i>
                 <i id="trendDown" style="padding: 5px; font-size: 1.4rem; display: none; color: #4694f5; float: left;" class="bi bi-arrow-down-short"></i>
                 <small style="color: #555b6e; position:absolute; right: 10px; bottom: 10px;">&deg;C</small>
@@ -40,8 +40,8 @@
             <div class="card" style="width: 14rem; height: 7rem; margin-bottom: 15px;">
               <div class="card-body">
                 <!-- card for showing the maximum temperature -->
-                <h6 class="card-subtitle mb-2" style="color: #555b6e !important;">Highest temperature</h6>
-                <h2><span style="color: #d90429;" id="maxTemp"></span></h2>
+                <h6 class="card-subtitle mb-2" style="color: #555b6e !important;">Highest indoor temp</h6>
+                <h2><span style="color: #439898;" id="maxTempIn"></span></h2>
                 <small style="color: #555b6e; position:absolute; right: 10px; bottom: 10px;">&deg;C, 24h</small>
               </div>
             </div>
@@ -50,8 +50,42 @@
             <div class="card" style="width: 14rem; height: 7rem; margin-bottom: 15px;">
               <div class="card-body">
                 <!-- card for showing the minimum temperature -->
-                <h6 class="card-subtitle mb-2" style="color: #555b6e !important;">Lowest temperature</h6>
-                <h2><span style="color: #4694f5;" id="minTemp"></span></h2>
+                <h6 class="card-subtitle mb-2" style="color: #555b6e !important;">Lowest indoor temp</h6>
+                <h2><span style="color: #59cccc;" id="minTempIn"></span></h2>
+                <small style="color: #555b6e; position:absolute; right: 10px; bottom: 10px;">&deg;C, 24h</small>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="block" style="padding-left: 15px;">
+            <div class="card" style="width: 14rem; height: 7rem; margin-bottom: 15px;">
+              <div class="card-body">
+                <!-- card for showing the current temperature -->
+                <h6 class="card-subtitle mb-2" style="color: #555b6e !important;">Current outdoor temp</h6>
+                <h2><span style="color: #e4629f; float: left;" id="currTempOut"></span></h2>
+                <i id="trendUp" style="padding: 5px; font-size: 1.4rem; display: none; color: #d90429; float: left;" class="bi bi-arrow-up-short"></i>
+                <i id="trendDown" style="padding: 5px; font-size: 1.4rem; display: none; color: #4694f5; float: left;" class="bi bi-arrow-down-short"></i>
+                <small style="color: #555b6e; position:absolute; right: 10px; bottom: 10px;">&deg;C</small>
+              </div>
+            </div>
+          </div>
+          <div class="block" style="padding-left: 15px;">
+            <div class="card" style="width: 14rem; height: 7rem; margin-bottom: 15px;">
+              <div class="card-body">
+                <!-- card for showing the minimum temperature -->
+                <h6 class="card-subtitle mb-2" style="color: #555b6e !important;">Lowest outdoor temp</h6>
+                <h2><span style="color: #c16e95;" id="maxTempOut"></span></h2>
+                <small style="color: #555b6e; position:absolute; right: 10px; bottom: 10px;">&deg;C, 24h</small>
+              </div>
+            </div>
+          </div>
+          <div class="block" style="padding-left: 15px;">
+            <div class="card" style="width: 14rem; height: 7rem; margin-bottom: 15px;">
+              <div class="card-body">
+                <!-- card for showing the minimum temperature -->
+                <h6 class="card-subtitle mb-2" style="color: #555b6e !important;">Lowest outdoor temp</h6>
+                <h2><span style="color: #e07fac;" id="minTempOut"></span></h2>
                 <small style="color: #555b6e; position:absolute; right: 10px; bottom: 10px;">&deg;C, 24h</small>
               </div>
             </div>
