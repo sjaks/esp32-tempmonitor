@@ -63,7 +63,8 @@ const requestListener = function (req, res) {
                 // Fill the payload with data
                 data.push({
                     "timestamp": queryObject.query.timestamp,
-                    "temp": queryObject.query.temp
+                    "temp": queryObject.query.temp,
+                    "outdoors": queryObject.query.outdoors
                 });
 
                 // Write new temp data to the back of the temp array file
