@@ -97,6 +97,9 @@
         <br>-->
         <!-- main graph canvas -->
         <canvas class="my-4" id="temps" width="700" height="380"></canvas>
+        <br>
+        <label for="yScale" class="form-label">Scale</label>
+        <input type="range" class="form-range" id="yScale" style="width: 100%;" min=30 max=50 step=5 value=35 oninput="changeScale(this)">
       </div>
     </div>
 

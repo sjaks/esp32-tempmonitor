@@ -31,7 +31,7 @@ data: {
             borderColor: "#4cb5b5",
             borderWidth: 2,
             pointRadius: 0,
-            yAxisID: "Indoors"
+            yAxisID: "Temperature"
         },
         {
             // y-dataset for day's maximum indoor temperature line,
@@ -44,7 +44,7 @@ data: {
             borderWidth: 2,
             pointRadius: 0,
             borderDash: [2, 10],
-            yAxisID: "Indoors"
+            yAxisID: "Temperature"
         },
         {
             // y-dataset for day's minimum indoor temperature line,
@@ -57,7 +57,7 @@ data: {
             borderWidth: 2,
             pointRadius: 0,
             borderDash: [2, 10],
-            yAxisID: "Indoors"
+            yAxisID: "Temperature"
         },
         {
             // y-dataset for observed outdoor temperatures
@@ -68,7 +68,7 @@ data: {
             borderColor: "#e4629f",
             borderWidth: 2,
             pointRadius: 0,
-            yAxisID: "Outdoors"
+            yAxisID: "Temperature"
         },
         {
             // y-dataset for day's maximum outdoor temperature line,
@@ -81,7 +81,7 @@ data: {
             borderWidth: 2,
             pointRadius: 0,
             borderDash: [2, 10],
-            yAxisID: "Outdoors"
+            yAxisID: "Temperature"
         },
         {
             // y-dataset for day's minimum outdoor temperature line,
@@ -94,32 +94,21 @@ data: {
             borderWidth: 2,
             pointRadius: 0,
             borderDash: [2, 10],
-            yAxisID: "Outdoors"
+            yAxisID: "Temperature"
         },
     ]
 },
 options: {
     scales: {
         yAxes: [{
-            id: "Indoors",
+            id: "Temperature",
             position: 'left',
             ticks: {
                 // Use some intuitive max and min
                 // values for the temperature y-axis
-                min: 12,
-                max: 36,
-                stepSize: 2,
-            }
-        },
-        {
-            id: "Outdoors",
-            position: 'right',
-            ticks: {
-                // Use some intuitive max and min
-                // values for the temperature y-axis
-                min: 30,
-                max: -30,
-                stepSize: 5,
+                min: 0,
+                max: 35,
+                stepSize: 5
             }
         }],
         xAxes: [{
@@ -169,68 +158,77 @@ options: {
 
 // Function for getting new data and parsing it into the UI elements
 function updateData() {
-// Define path to backend data entrypoint.
-var url = "temperature/read";
+    // Define path to backend data entrypoint.
+    var url = "temperature/read";
 
 
-// Make GET request to backend
-$.get(url, function(data) {
-    var iy = [], ix = [];
-    var oy = [], ox = [];
+    // Make GET request to backend
+    $.get(url, function(data) {
+        var iy = [], ix = [];
+        var oy = [], ox = [];
 
-    // Place current, max and min temperatures into card views
-    curi.innerHTML = parseFloat(data[data.length - 1].temp).toFixed(2);
-    curo.innerHTML = parseFloat(data[data.length - 1].outdoors).toFixed(2);
-    mxti.innerHTML = parseFloat(Math.max.apply(Math, data.map(function(el) { return el.temp; }))).toFixed(2);
-    mnti.innerHTML = parseFloat(Math.min.apply(Math, data.map(function(el) { return el.temp; }))).toFixed(2);
-    mxto.innerHTML = parseFloat(Math.max.apply(Math, data.map(function(el) { return el.outdoors; }))).toFixed(2);
-    mnto.innerHTML = parseFloat(Math.min.apply(Math, data.map(function(el) { return el.outdoors; }))).toFixed(2);
+        // Place current, max and min temperatures into card views
+        curi.innerHTML = parseFloat(data[data.length - 1].temp).toFixed(2);
+        curo.innerHTML = parseFloat(data[data.length - 1].outdoors).toFixed(2);
+        mxti.innerHTML = parseFloat(Math.max.apply(Math, data.map(function(el) { return el.temp; }))).toFixed(2);
+        mnti.innerHTML = parseFloat(Math.min.apply(Math, data.map(function(el) { return el.temp; }))).toFixed(2);
+        mxto.innerHTML = parseFloat(Math.max.apply(Math, data.map(function(el) { return el.outdoors; }))).toFixed(2);
+        mnto.innerHTML = parseFloat(Math.min.apply(Math, data.map(function(el) { return el.outdoors; }))).toFixed(2);
 
-    // Show the previous data fetch time in top bar
-    upd.innerHTML = data[data.length - 1].timestamp;
+        // Show the previous data fetch time in top bar
+        upd.innerHTML = data[data.length - 1].timestamp;
 
-    // Parse fetched data into arrays
-    for (var i = 0; i < data.length; i++) {
-        ix.push(data[i].timestamp);
-        iy.push(parseFloat(data[i].temp).toFixed(2));
-        oy.push(parseFloat(data[i].outdoors).toFixed(2));
-    }
+        // Parse fetched data into arrays
+        for (var i = 0; i < data.length; i++) {
+            ix.push(data[i].timestamp);
+            iy.push(parseFloat(data[i].temp).toFixed(2));
+            oy.push(parseFloat(data[i].outdoors).toFixed(2));
+        }
 
-    // Place observed temperatures into the graph
-    temps.data.labels = ix;
-    temps.data.datasets[0].data = iy;
-    temps.data.datasets[3].data = oy;
+        // Place observed temperatures into the graph
+        temps.data.labels = ix;
+        temps.data.datasets[0].data = iy;
+        temps.data.datasets[3].data = oy;
 
-    // Create horizontal lines for max and min temperatures and draw them into the graph
-    var maxSeriesIn = Array(data.length);
-    var minSeriesIn = Array(data.length);
-    var maxSeriesOut = Array(data.length);
-    var minSeriesOut = Array(data.length);
-    temps.data.datasets[1].data = maxSeriesIn.fill(mxti.innerHTML, 0, data.length);
-    temps.data.datasets[2].data = minSeriesIn.fill(mnti.innerHTML, 0, data.length);
-    temps.data.datasets[4].data = maxSeriesOut.fill(mxto.innerHTML, 0, data.length);
-    temps.data.datasets[5].data = minSeriesOut.fill(mnto.innerHTML, 0, data.length);
+        // Create horizontal lines for max and min temperatures and draw them into the graph
+        var maxSeriesIn = Array(data.length);
+        var minSeriesIn = Array(data.length);
+        var maxSeriesOut = Array(data.length);
+        var minSeriesOut = Array(data.length);
+        temps.data.datasets[1].data = maxSeriesIn.fill(mxti.innerHTML, 0, data.length);
+        temps.data.datasets[2].data = minSeriesIn.fill(mnti.innerHTML, 0, data.length);
+        temps.data.datasets[4].data = maxSeriesOut.fill(mxto.innerHTML, 0, data.length);
+        temps.data.datasets[5].data = minSeriesOut.fill(mnto.innerHTML, 0, data.length);
 
-    // Show temperature trend arrow based on temperature delta
-    if (data[data.length - 1].temp >= data[data.length - 2].temp) {
-        trui.style.display = "inline";
-        trdi.style.display = "none";
-    } else {
-        trdi.style.display = "inline";
-        trui.style.display = "none";
-    }
+        // Show temperature trend arrow based on temperature delta
+        if (data[data.length - 1].temp >= data[data.length - 2].temp) {
+            trui.style.display = "inline";
+            trdi.style.display = "none";
+        } else {
+            trdi.style.display = "inline";
+            trui.style.display = "none";
+        }
 
-    if (data[data.length - 1].outdoors >= data[data.length - 2].outdoors) {
-        truo.style.display = "inline";
-        trdo.style.display = "none";
-    } else {
-        trdo.style.display = "inline";
-        truo.style.display = "none";
-    }
+        if (data[data.length - 1].outdoors >= data[data.length - 2].outdoors) {
+            truo.style.display = "inline";
+            trdo.style.display = "none";
+        } else {
+            trdo.style.display = "inline";
+            truo.style.display = "none";
+        }
 
-    // Redraw the graph
+        // Redraw the graph
+        temps.update();
+    });
+}
+
+
+// Function for zooming the graph
+function changeScale(range) {
+    console.log(range.value)
+    temps.options.scales.yAxes[0].ticks.max = parseInt(range.value);
+    temps.options.scales.yAxes[0].ticks.min = -2 * (parseInt(range.value) - 35);
     temps.update();
-});
 }
 
 
