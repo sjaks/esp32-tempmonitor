@@ -24,6 +24,7 @@ process.env.DEV == "true" ? urlPrefix = "temperature" : urlPrefix = "";
 // Read static files into memory
 var mainPageContent = fs.readFileSync(__dirname + "/static/index.html", { encoding: "utf8" });
 var mainChartLogic = fs.readFileSync(__dirname + "/static/chart.js", { encoding: "utf8" });
+var mainStyleSheet = fs.readFileSync(__dirname + "/static/style.css", { encoding: "utf8" });
 
 
 const requestListener = function (req, res) {
@@ -80,6 +81,11 @@ const requestListener = function (req, res) {
         // Return main chart
         case urlPrefix + "chart.js":
             responseText = mainChartLogic;
+            break;
+
+        // Return main styles
+        case urlPrefix + "style.css":
+            responseText = mainStyleSheet;
             break;
 
         // Requested URL not found
