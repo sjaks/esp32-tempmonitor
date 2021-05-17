@@ -25,65 +25,79 @@
       <br>
       <div class="container">
         <div class="row">
-          <div class="block">
-            <div class="card card-large">
-              <div class="card-body">
-                <!-- card for showing the current indoors temperature -->
-                <h6 class="card-subtitle mb-2">Current indoors</h6>
-                <h2><span style="color: #4cb5b5" id="currTempIn"></span></h2>
-                <i id="trendUpIn" class="bi bi-arrow-up-short"></i>
-                <i id="trendDownIn" class="bi bi-arrow-down-short"></i>
-                <small>&deg;C</small>
+          <div class="col-7">
+            <div class="row">
+              <div class="block">
+                <div class="card card-large">
+                  <div class="card-body">
+                    <!-- card for showing the current indoors temperature -->
+                    <h6 class="card-subtitle mb-2">Current indoors</h6>
+                    <h2><span style="color: #4cb5b5" id="currTempIn"></span></h2>
+                    <i id="trendUpIn" class="bi bi-arrow-up-short"></i>
+                    <i id="trendDownIn" class="bi bi-arrow-down-short"></i>
+                    <small>&deg;C</small>
+                  </div>
+                </div>
+              </div>
+              <div class="block">
+                <div class="card card-large">
+                  <div class="card-body">
+                    <!-- card for showing the current outdoors temperature -->
+                    <h6 class="card-subtitle mb-2">Current outdoors</h6>
+                    <h2><span style="color: #e4629f;" id="currTempOut"></span></h2>
+                    <i id="trendUpOut" class="bi bi-arrow-up-short"></i>
+                    <i id="trendDownOut" class="bi bi-arrow-down-short"></i>
+                    <small>&deg;C</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="block">
+                <div class="card card-small">
+                  <div class="card-body">
+                    <!-- card for showing the maximum indoors temperature -->
+                    <h4><span style="color: #439898;" id="maxTempIn"></span></h4>
+                    <small>Max &deg;C, 24h</small>
+                  </div>
+                </div>
+              </div>
+              <div class="block">
+                <div class="card card-small">
+                  <div class="card-body">
+                    <!-- card for showing the minimum indoors temperature -->
+                    <h4><span style="color: #59cccc;" id="minTempIn"></span></h4>
+                    <small>Min &deg;C, 24h</small>
+                  </div>
+                </div>
+              </div>
+              <div class="block">
+                <div class="card card-small">
+                  <div class="card-body">
+                    <!-- card for showing the minimum outdoors temperature -->
+                    <h4><span style="color: #c16e95;" id="maxTempOut"></span></h4>
+                    <small>Max &deg;C, 24h</small>
+                  </div>
+                </div>
+              </div>
+              <div class="block">
+                <div class="card card-small">
+                  <div class="card-body">
+                    <!-- card for showing the minimum outdoors temperature -->
+                    <h4><span style="color: #e07fac;" id="minTempOut"></span></h4>
+                    <small>Min &deg;C, 24h</small>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-          <div class="block">
-            <div class="card card-large">
+          <div class="col-5">
+            <div class="card card-large" style="width: 100%;">
               <div class="card-body">
-                <!-- card for showing the current outdoors temperature -->
-                <h6 class="card-subtitle mb-2">Current outdoors</h6>
-                <h2><span style="color: #e4629f;" id="currTempOut"></span></h2>
-                <i id="trendUpOut" class="bi bi-arrow-up-short"></i>
-                <i id="trendDownOut" class="bi bi-arrow-down-short"></i>
-                <small>&deg;C</small>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="block">
-            <div class="card card-small">
-              <div class="card-body">
-                <!-- card for showing the maximum indoors temperature -->
-                <h4><span style="color: #439898;" id="maxTempIn"></span></h4>
-                <small>Max &deg;C, 24h</small>
-              </div>
-            </div>
-          </div>
-          <div class="block">
-            <div class="card card-small">
-              <div class="card-body">
-                <!-- card for showing the minimum indoors temperature -->
-                <h4><span style="color: #59cccc;" id="minTempIn"></span></h4>
-                <small>Min &deg;C, 24h</small>
-              </div>
-            </div>
-          </div>
-          <div class="block">
-            <div class="card card-small">
-              <div class="card-body">
-                <!-- card for showing the minimum outdoors temperature -->
-                <h4><span style="color: #c16e95;" id="maxTempOut"></span></h4>
-                <small>Max &deg;C, 24h</small>
-              </div>
-            </div>
-          </div>
-          <div class="block">
-            <div class="card card-small">
-              <div class="card-body">
-                <!-- card for showing the minimum outdoors temperature -->
-                <h4><span style="color: #e07fac;" id="minTempOut"></span></h4>
-                <small>Min &deg;C, 24h</small>
+                <!-- card for graph controls -->
+                <h6 class="card-subtitle mb-2">Chart scaling</h6>
+                <br>
+                <input type="range" class="form-range" id="yScale" min=30 max=50 step=5 value=35 oninput="changeScale(this)">
               </div>
             </div>
           </div>
@@ -91,9 +105,6 @@
         <br>
         <!-- main graph canvas -->
         <canvas class="my-4" id="temps" width="700" height="380"></canvas>
-        <br>
-        <label for="yScale" class="form-label">Graph scaling</label>
-        <input type="range" class="form-range" id="yScale" min=30 max=50 step=5 value=35 oninput="changeScale(this)">
       </div>
     </div>
 
