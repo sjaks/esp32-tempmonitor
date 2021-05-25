@@ -16,6 +16,11 @@ var truo = document.getElementById("trendUpOut");
 var trdo = document.getElementById("trendDownOut");
 
 
+// Handles to graph control DOM elements
+var sdate = document.getElementById("startDate");
+var edate = document.getElementById("endDate");
+
+
 // Main temperature graph
 var temps = new Chart(ctx, {
 type: "line",
@@ -106,8 +111,8 @@ options: {
             ticks: {
                 // Use some intuitive max and min
                 // values for the temperature y-axis
-                min: 0,
-                max: 35,
+                min: -10,
+                max: 40,
                 stepSize: 5
             }
         }],
@@ -230,6 +235,11 @@ function changeScale(range) {
     temps.options.scales.yAxes[0].ticks.min = -2 * (parseInt(range.value) - 35);
     temps.update();
 }
+
+
+// Init controls to today
+sdate.valueAsDate = new Date();
+edate.valueAsDate = new Date();
 
 
 // Fetch new data every 10 seconds from the backend

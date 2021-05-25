@@ -92,12 +92,24 @@
             </div>
           </div>
           <div class="col-5">
-            <div class="card card-large" style="width: 100%;">
-              <div class="card-body">
-                <!-- card for graph controls -->
-                <h6 class="card-subtitle mb-2">Chart scaling</h6>
-                <br>
-                <input type="range" class="form-range" id="yScale" min=30 max=50 step=5 value=35 oninput="changeScale(this)">
+            <div class="row">
+              <div class="card card-large" style="width: 100%;">
+                <div class="card-body">
+                  <!-- card for graph controls -->
+                  <h6 class="card-subtitle mb-2">Chart scaling</h6>
+                  <br>
+                  <input type="range" class="form-range" id="yScale" min=30 max=55 step=5 value=40 oninput="changeScale(this)">
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="card card-medium" style="width: 100%;">
+                <div class="card-body">
+                  <!-- card for graph controls -->
+                  <h6 class="card-subtitle mb-2">Time range (Alpha feature)</h6>
+                  <input id="startDate" type="date">
+                  <input id="endDate" type="date">
+                </div>
               </div>
             </div>
           </div>

@@ -12,13 +12,20 @@
     margin-bottom: 15px;
 }
 
+.card-medium {
+    width: 19rem;
+    height: 5.5rem;
+    margin-bottom: 15px;
+}
+
 .card-small {
     width: 9rem;
     height: 5.5rem;
     margin-bottom: 15px;
 }
 
-.card-large .card-body .card-subtitle {
+.card-large .card-body .card-subtitle,
+.card-medium .card-body .card-subtitle {
     color: #555b6e !important;
 }
 
@@ -26,7 +33,7 @@
     float: left;
 }
 
-.card-large .card-body small, .card-small .card-body small {
+.card-small .card-body small {
     color: #555b6e;
     position:absolute;
     right: 10px;
@@ -72,4 +79,11 @@
     height: 15px; 
     background: #343a40;
     border-radius: 50%;
+}
+
+#startDate, #endDate {
+    border: 1px solid rgba(0,0,0,.125);
+    border-radius: .25rem;
+    padding: 2px 8px;
+    color: #555b6e !important;
 }
