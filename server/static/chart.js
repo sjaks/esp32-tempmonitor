@@ -1,3 +1,8 @@
+/*
+tempbodge: temp fetcher
+sjaks@github.com
+*/
+
 // Handles to temperature DOM elements
 var curi = document.getElementById("currTempIn");
 var curo = document.getElementById("currTempOut");
