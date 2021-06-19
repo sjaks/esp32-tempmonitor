@@ -1,13 +1,5 @@
-/*
-      _       _        
- ___ (_) __ _| | _____  sjaks@github
-/ __|| |/ _` | |/ / __| jaks.fi
-\__ \| | (_| |   <\__ \ ------------
-|___// |\__,_|_|\_\___/ tempbodge
-   |__/                
-BRIEF:
-Tempbodge server implementation
-*/
+// tempbodge
+// sjaks@github.com
 
 const http = require('http');
 const url = require('url');
