@@ -13,6 +13,7 @@ unsigned long timestamp;
 
 
 // WiFi credentials
+String hostname = "tempbodge";
 const char* ssid = "SSID";
 const char* password =  "PASSWORD";
 
@@ -40,6 +41,8 @@ void setup() {
   // Wait a while and connect to Wifi
   Serial.begin(115200);
   delay(4000);
+  WiFi.config(INADDR_NONE, INADDR_NONE, INADDR_NONE, INADDR_NONE);
+  WiFi.setHostname(hostname.c_str());
   WiFi.begin(ssid, password);
 
   while (WiFi.status() != WL_CONNECTED) {
