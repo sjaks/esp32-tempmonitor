@@ -125,7 +125,6 @@ function updateTimeateData() {
     // Make GET request to backend
     $.get(url, function(data) {
         var iy = [], ix = [];
-        var oy = [], ox = [];
 
         // Place current, max and min temperatures into card views
         currentTemperature.innerHTML = parseFloat(data[data.length - 1].temp).toFixed(2);
@@ -139,7 +138,6 @@ function updateTimeateData() {
         for (var i = 0; i < data.length; i++) {
             ix.push(data[i].timestamp);
             iy.push(parseFloat(data[i].temp).toFixed(2));
-            oy.push(parseFloat(data[i].outdoors).toFixed(2));
         }
 
         // Place observed temperatures into the graph
