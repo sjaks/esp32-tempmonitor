@@ -101,7 +101,7 @@ var temps = new Chart(tempsChart, {
             callbacks: {
                 title: function(tooltipItem){
                     // Show full datetime string in tooltip
-                    return this._data.labels[tooltipItem[0].index].substring(0, 16);
+                    return this._data.labels[tooltipItem[0].index];
                 },
                 label: function(tooltipItems, data) {
                     let label = data.datasets[tooltipItems.datasetIndex].label;
@@ -117,7 +117,7 @@ var temps = new Chart(tempsChart, {
 
 
 // Function for getting new data and parsing it into the UI elements
-function updateTimeateData() {
+function updateData() {
     // Define path to backend data entrypoint.
     var url = "temperature/read";
 
@@ -131,14 +131,17 @@ function updateTimeateData() {
         maxTemperature.innerHTML = parseFloat(Math.max.apply(Math, data.map(function(el) { return el.temp; }))).toFixed(2);
         minTemperature.innerHTML = parseFloat(Math.min.apply(Math, data.map(function(el) { return el.temp; }))).toFixed(2);
 
-        // Show the previous data fetch time in top bar
-        updateTime.innerHTML = data[data.length - 1].timestamp;
-
         // Parse fetched data into arrays
         for (var i = 0; i < data.length; i++) {
-            ix.push(data[i].timestamp);
+            var date = new Date(0);
+            date.setUTCSeconds(data[i].timestamp);
+            date = date.toISOString().replace("T", " ").substring(0, 16);
+            ix.push(date);
             iy.push(parseFloat(data[i].temp).toFixed(2));
         }
+
+        // Show the previous data fetch time in top bar
+        updateTime.innerHTML = ix[ix.length - 1];
 
         // Place observed temperatures into the graph
         temps.data.labels = ix;
@@ -165,15 +168,6 @@ function updateTimeateData() {
 }
 
 
-// Function for zooming the graph
-function changeScale(range) {
-    console.log(range.value)
-    temps.options.scales.yAxes[0].ticks.max = parseInt(range.value);
-    temps.options.scales.yAxes[0].ticks.min = -2 * (parseInt(range.value) - 35);
-    temps.updateTimeate();
-}
-
-
 // Fetch new data every 10 seconds from the backend
-updateTimeateData();
-setInterval(updateTimeateData, 10000);
+updateData();
+setInterval(updateData, 10000);
