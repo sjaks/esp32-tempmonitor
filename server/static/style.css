@@ -5,10 +5,13 @@ sjaks@github.com
 
 .nav-right {
     color: #ffffff;
+    padding-left: 4px;
+    padding-bottom: 4px;
 }
 
 .card {
-    height: 11vh;
+    min-height: 11vh;
+    margin-bottom: 1vh;
 }
 
 .card .card-body .card-subtitle {
@@ -40,36 +43,4 @@ sjaks@github.com
     display: none;
     color: #4694f5;
     float: left;
-}
-
-#yScale {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 100%;
-    background: rgba(0,0,0,.125) !important;
-    outline: none;
-    height: 2px;
-}
-
-#yScale::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 15px;
-    height: 15px;
-    background: #343a40;
-    border-radius: 50%;
-}
-
-#yScale::-moz-range-thumb {
-    width: 15px;
-    height: 15px; 
-    background: #343a40;
-    border-radius: 50%;
-}
-
-#startDate, #endDate {
-    border: 1px solid rgba(0,0,0,.125);
-    border-radius: .25rem;
-    padding: 2px 8px;
-    color: #555b6e !important;
 }
