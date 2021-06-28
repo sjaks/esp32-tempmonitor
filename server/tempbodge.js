@@ -38,7 +38,7 @@ const requestListener = function (req, res) {
 
         // Entrypoint for front-end to get latest data
         case urlPrefix + "read":
-            data = fs.readFileSync(__dirname + "/temps");
+            data = fs.readFileSync(__dirname + "/db.json");
             header = "text/json";
             responseText = data;
             break;
