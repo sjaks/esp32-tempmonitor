@@ -47,7 +47,7 @@ const requestListener = function (req, res) {
         case urlPrefix + "post":
             // Require authentication and write given data
             if (querySecret === secret) {
-                data = JSON.parse(fs.readFileSync(__dirname + "/temps"));
+                data = JSON.parse(fs.readFileSync(__dirname + "/db.json"));
                 if (data.length >= 289) {
                     // Pop the first element out (limit to 24h)
                     data.shift()
@@ -61,7 +61,7 @@ const requestListener = function (req, res) {
                 });
 
                 // Write new temp data to the back of the temp array file
-                fs.writeFileSync(__dirname + "/temps", JSON.stringify(data));
+                fs.writeFileSync(__dirname + "/db.json", JSON.stringify(data));
                 responseText = "success";
             } else {
                 // Unauthorized access to post URL
