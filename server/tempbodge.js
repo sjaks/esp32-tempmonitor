@@ -16,9 +16,11 @@ process.env.DEV == "true" ? urlPrefix = "temperature" : urlPrefix = "";
 // Read static files into memory
 var mainPageContent = fs.readFileSync(__dirname + "/static/index.html", { encoding: "utf8" });
 var mainChartLogic = fs.readFileSync(__dirname + "/static/chart.js", { encoding: "utf8" });
+var mainClientLogic = fs.readFileSync(__dirname + "/static/main.js", { encoding: "utf8" });
 var mainStyleSheet = fs.readFileSync(__dirname + "/static/style.css", { encoding: "utf8" });
 
 
+// Main server logic
 const requestListener = function (req, res) {
     // Set default HTTP response values
     let header = "text/html; charset=utf-8";
@@ -30,6 +32,7 @@ const requestListener = function (req, res) {
     const path = queryObject.pathname.replace(/\//g, "");
     const querySecret = queryObject.query.secret;
 
+    // Define routes
     switch (path) {
         // Serve front-end interface
         case urlPrefix + "":
@@ -49,7 +52,7 @@ const requestListener = function (req, res) {
             if (querySecret === secret) {
                 data = JSON.parse(fs.readFileSync(__dirname + "/db.json"));
                 if (data.length >= 289) {
-                    // Pop the first element out (limit to 24h)
+                    // Pop the first element out (limit to 24h when i=5min)
                     data.shift()
                 }
 
@@ -73,6 +76,11 @@ const requestListener = function (req, res) {
         // Return main chart
         case urlPrefix + "chart.js":
             responseText = mainChartLogic;
+            break;
+
+        // Return main JS
+        case urlPrefix + "main.js":
+            responseText = mainClientLogic;
             break;
 
         // Return main styles

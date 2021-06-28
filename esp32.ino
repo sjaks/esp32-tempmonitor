@@ -83,5 +83,6 @@ void loop() {
     http.end();
   }
 
-  delay(10000);
+  // Post every 5 minutes
+  delay(300000);
 }
