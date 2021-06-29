@@ -1,6 +1,6 @@
 {
   "name": "tempbodge",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Very simple Raspberry Pi temperature monitor with a barebones frontend",
   "main": "tempbodge.js",
   "scripts": {
