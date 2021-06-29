@@ -1,7 +1,7 @@
 {
   "name": "tempbodge",
   "version": "2.0.0",
-  "description": "Very simple Raspberry Pi temperature monitor with a barebones frontend",
+  "description": "Very simple ESP32 temperature monitor with a barebones frontend",
   "main": "tempbodge.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
