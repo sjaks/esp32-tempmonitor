@@ -3,6 +3,8 @@
 
 
 #include <WiFi.h>
+#include <OneWire.h>
+#include <DallasTemperature.h>
 #include <HTTPClient.h>
 #include "time.h"
 
@@ -21,6 +23,11 @@ const char* password =  "PASSWORD";
 // Tempbodge remote endpoint info
 const String endpoint = "https://jaks.fi/temperature/post";
 const String secret = "SECRET";
+
+// OneWire bus info
+const int oneWireBus = 4;
+OneWire oneWire(oneWireBus);
+DallasTemperature sensors(&oneWire);
 
 
 // Function for getting current epoch time
@@ -60,14 +67,13 @@ void loop() {
 
     // Get data
     timestamp = getTime();
-    String tempIndoors = "0.0";
-    String tempOutdoors = "0.0";
+    sensors.requestTemperatures(); 
+    String temperatureValue = String(sensors.getTempCByIndex(0), 2);
 
     // Construct the full URL with params
     String payload = "?secret=" + secret;
     payload += "&timestamp=" + String(timestamp);
-    payload += "&temp=" + tempIndoors;
-    payload += "&outdoors=" + tempOutdoors;
+    payload += "&temp=" + temperatureValue;
 
     // Make request to the API endpoint and send data
     http.begin(endpoint + payload);
