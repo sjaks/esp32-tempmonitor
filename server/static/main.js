@@ -48,9 +48,9 @@ function updateData() {
                 // Parse fetched data into arrays y and x
                 var y = [], x = [];
                 for (var i = 0; i < data.length; i++) {
-                    var date = new Date(0);
-                    date.setUTCSeconds(data[i].timestamp);
-                    date = date.toISOString().replace("T", " ").substring(0, 16);
+                    var date = new Date(data[i].timestamp * 1000);
+                    date = date.toLocaleString('fi-FI').replace("klo ", "");
+                    date = date.substring(0, date.length - 3); // splice seconds
                     x.push(date);
                     y.push(parseFloat(data[i].temp).toFixed(2));
                 }

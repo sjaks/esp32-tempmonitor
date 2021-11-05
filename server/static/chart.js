@@ -60,7 +60,7 @@ var temps = new Chart(tempsChart, {
                     maxTicksLimit: 20,
                     userCallback: function(label, index, labels) {
                         // Strip down date from x-axis labels
-                        return label.substring(11,16)
+                        return label.split(" ")[1];
                     },
                 }
             }],
