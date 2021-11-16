@@ -21,7 +21,7 @@ const char* password =  "PASSWORD";
 
 
 // Tempbodge remote endpoint info
-const String endpoint = "https://jaks.fi/temperature/post";
+const String endpoint = "https://sjaks.dy.fi/temperature/post";
 const String secret = "SECRET";
 
 // OneWire bus info
