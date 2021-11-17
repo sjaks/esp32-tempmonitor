@@ -1,5 +1,5 @@
 /*
-tempbodge: temp fetcher
+esp32-tempmonitor: temp fetcher
 sjaks@github.com
 */
 

@@ -1,21 +1,21 @@
 {
-  "name": "tempbodge",
+  "name": "esp32-tempmonitor",
   "version": "2.0.0",
   "description": "Very simple ESP32 temperature monitor with a barebones frontend",
-  "main": "tempbodge.js",
+  "main": "tempmonitor.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/sjaks/tempbodge.git"
+    "url": "git+https://github.com/sjaks/esp32-tempmonitor.git"
   },
   "author": "sjaks@github",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/sjaks/tempbodge/issues"
+    "url": "https://github.com/sjaks/esp32-tempmonitor/issues"
   },
-  "homepage": "https://github.com/sjaks/tempbodge#readme",
+  "homepage": "https://github.com/sjaks/esp32-tempmonitor#readme",
   "dependencies": {
     "dotenv": "^8.2.0"
   }

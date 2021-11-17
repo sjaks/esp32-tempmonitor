@@ -1,4 +1,4 @@
-# TempBodge
+# ESP32 Temperature Monitor
 
 Very simple ESP32 temperature monitor with a barebones frontend
 

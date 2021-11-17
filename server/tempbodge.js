@@ -1,4 +1,4 @@
-// tempbodge
+// esp32-tempmonitor
 // sjaks@github.com
 
 const http = require('http');
