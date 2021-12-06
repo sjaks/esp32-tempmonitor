@@ -1,0 +1,75 @@
+<!--
+esp32-tempmonitor: temp fetcher
+sjaks@github.com
+-->
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>Temperature monitor</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='lib/bootstrap.min.css') }}">
+        <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/icon.png') }}" />
+        <link href="{{ url_for('static', filename='lib/rubik.css') }}" rel="stylesheet">
+        <script src="{{ url_for('static', filename='lib/chart.min.js') }}"></script>
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    </head>
+    <body>
+        <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
+            <div class="container">
+            <a class="navbar-brand" href="">Temperature monitor</a>
+            </div>
+        </nav>
+        <div class="container-fluid">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-7">
+                        <div class="content-container card-indoors">
+                            <span class="card-heading">INDOORS</span>
+                            <span class="card-main-value main-temp">
+                                <span id="current-indoors-temperature">0.00</span>&deg;C
+                            </span>
+                            <span class="sub-heading">
+                                Min <span id="min-indoors-temperature">0.00</span>&deg;C
+                                - 
+                                Max <span id="max-indoors-temperature">0.00</span>&deg;C
+                            </span>
+                            <span class="sub-text">
+                                Updated: <span id="update-time-indoors"></span>
+                            </span>
+                            <img src="{{ url_for('static', filename='img/apartment.png') }}" alt="Apartment">
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="content-container card-outdoors">
+                            <span class="card-heading">OUTDOORS</span>
+                            <span class="card-main-value main-temp">
+                                <span id="current-outdoors-temperature">0.00</span>&deg;C
+                            </span>
+                            <span class="sub-text">
+                                Updated: <span id="update-time-outdoors"></span>
+                            </span>
+                            <img src="{{ url_for('static', filename='img/forest.png') }}" alt="Apartment">
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-lg-11">
+                        <div class="chart-container">
+                            <canvas id="temps"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <footer>
+                        <a href="https://github.com/sjaks/esp32-tempmonitor/">Design from 🇫🇮</a>
+                    </footer>
+                </div>
+            </div>
+        </div>
+        <!-- load main chart -->
+        <script src="{{ url_for('static', filename='chart.js') }}"></script>
+        <script src="{{ url_for('static', filename='main.js') }}"></script>
+    </body>
+</html>

@@ -3,23 +3,21 @@ esp32-tempmonitor: temp fetcher
 sjaks@github.com
 */
 
-
 // Handle to DOM chart element
 var tempsChart = document.getElementById("temps");
-
 
 // Main temperature graph
 var temps = new Chart(tempsChart, {
     type: "line",
     data: {
-        labels: [], // x-axis labels
+        labels: [],
         datasets: [
             {
                 // y-dataset for observed indoor temperatures
                 label: "Temperature",
                 lineTension: 0,
                 backgroundColor: "transparent",
-                borderColor: "#4cb5b5",
+                borderColor: "#10ab9c",
                 borderWidth: 2,
                 pointRadius: 0
             },
@@ -46,19 +44,22 @@ var temps = new Chart(tempsChart, {
         ]
     },
     options: {
+        responsive: true,
+        maintainAspectRatio: false,
         scales: {
             yAxes: [{
                 ticks: {
-                    min: 14,
-                    max: 34,
-                    stepSize: 2
+                    fontFamily: 'Rubik',
+                    fontColor: '#b8b8b8'
                 }
             }],
             xAxes: [{
                 ticks: {
                     autoSkip: true,
                     maxTicksLimit: 20,
-                    userCallback: function(label, index, labels) {
+                    fontFamily: 'Rubik',
+                    fontColor: '#b8b8b8',
+                    userCallback: function(label) {
                         // Strip down date from x-axis labels
                         return label.split(" ")[1];
                     },
@@ -73,9 +74,11 @@ var temps = new Chart(tempsChart, {
         },
         tooltips: {
             yAlign: "top",
-            mode: "x-axis", // always show tooltip on chart hover
-            displayColors: false, // don't show line color square in tooltip
+            mode: "x-axis",
+            displayColors: false,
             caretSize: 0,
+            titleFontFamily: 'Rubik',
+            bodyFontFamily: 'Rubik',
             backgroundColor: "#ffffff",
             titleFontColor: "#555b6e",
             bodyFontColor: "#555b6e",
